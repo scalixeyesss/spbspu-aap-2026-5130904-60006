@@ -7,10 +7,8 @@
 namespace proskuryakov
 {
   const int err_args = 1;
-  const int err_input = 2; 
+  const int err_input = 2;
   const size_t max_fixed_size = 10000;
-
-
 
   int parseMode(const char *text)
   {
@@ -24,8 +22,6 @@ namespace proskuryakov
     }
     throw std::invalid_argument("num must be 1 or 2");
   }
-
-
 
   void readSize(std::ifstream &in, size_t &rows, size_t &cols)
   {
@@ -43,8 +39,6 @@ namespace proskuryakov
     }
   }
 
-
-
   void readElements(std::ifstream &in, int *data, size_t count)
   {
     for (size_t i = 0; i < count; ++i)
@@ -56,7 +50,6 @@ namespace proskuryakov
     }
   }
 
-  //Вариант 14 [MAX-SUM-SDG]
   long long diagonalSum(const int *data, size_t rows, size_t cols, size_t row, size_t col)
   {
     long long sum = 0;
@@ -79,8 +72,8 @@ namespace proskuryakov
     long long best = 0;
     for (size_t k = 1; k < rows + cols - 1; ++k)
     {
-      size_t row = (k < cols) ? 0 : k - cols + 1; 
-      size_t col = (k < cols) ? k : 0;            
+      size_t row = (k < cols) ? 0 : k - cols + 1;
+      size_t col = (k < cols) ? k : 0;
       long long sum = diagonalSum(data, rows, cols, row, col);
       if (!found || sum > best)
       {
@@ -91,14 +84,13 @@ namespace proskuryakov
     return best;
   }
 
-  // Вариант 11 [NUM-COL-LSR]
   size_t numColLsr(const int *data, size_t rows, size_t cols)
   {
     size_t bestColumn = 0;
     size_t bestLength = 0;
     for (size_t col = 0; col < cols; ++col)
     {
-      size_t length = 0; 
+      size_t length = 0;
       for (size_t row = 0; row < rows; ++row)
       {
         if (row > 0 && data[row * cols + col] == data[(row - 1) * cols + col])
@@ -119,9 +111,6 @@ namespace proskuryakov
     return bestColumn;
   }
 
-
-
-
   void processFixed(std::ifstream &in, long long &sdg, size_t &lsr)
   {
     size_t rows = 0;
@@ -137,14 +126,12 @@ namespace proskuryakov
     lsr = numColLsr(data, rows, cols);
   }
 
-
-
   void processDynamic(std::ifstream &in, long long &sdg, size_t &lsr)
   {
     size_t rows = 0;
     size_t cols = 0;
     readSize(in, rows, cols);
-    int *data = new int[rows * cols];  
+    int *data = new int[rows * cols];
     try
     {
       readElements(in, data, rows * cols);
@@ -153,7 +140,7 @@ namespace proskuryakov
     }
     catch (...)
     {
-      delete[] data;  
+      delete[] data;
       throw;
     }
     delete[] data;
