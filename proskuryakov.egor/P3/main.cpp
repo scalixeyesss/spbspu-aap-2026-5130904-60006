@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <stdexcept>
+#include <new>
 
 namespace proskuryakov
 {
@@ -72,9 +73,9 @@ namespace proskuryakov
     long long best = 0;
     for (size_t k = 1; k < rows + cols - 1; ++k)
     {
-      size_t row = (k < cols) ? 0 : k - cols + 1;
-      size_t col = (k < cols) ? k : 0;
-      long long sum = diagonalSum(data, rows, cols, row, col);
+      const size_t row = (k < cols) ? 0 : k - cols + 1;
+      const size_t col = (k < cols) ? k : 0;
+      const long long sum = diagonalSum(data, rows, cols, row, col);
       if (!found || sum > best)
       {
         best = sum;
@@ -86,8 +87,8 @@ namespace proskuryakov
 
   size_t numColLsr(const int *data, size_t rows, size_t cols)
   {
-    size_t bestColumn = 0;
-    size_t bestLength = 0;
+    size_t best_column = 0;
+    size_t best_length = 0;
     for (size_t col = 0; col < cols; ++col)
     {
       size_t length = 0;
@@ -101,14 +102,14 @@ namespace proskuryakov
         {
           length = 1;
         }
-        if (length > bestLength)
+        if (length > best_length)
         {
-          bestLength = length;
-          bestColumn = col + 1;
+          best_length = length;
+          best_column = col + 1;
         }
       }
     }
-    return bestColumn;
+    return best_column;
   }
 
   void processFixed(std::ifstream &in, long long &sdg, size_t &lsr)
@@ -131,7 +132,7 @@ namespace proskuryakov
     size_t rows = 0;
     size_t cols = 0;
     readSize(in, rows, cols);
-    int *data = new int[rows * cols];
+    int *const data = new int[rows * cols];
     try
     {
       readElements(in, data, rows * cols);
@@ -155,7 +156,7 @@ int main(int argc, char *argv[])
     {
       throw std::invalid_argument("expected 3 arguments: ./lab num input output");
     }
-    int mode = proskuryakov::parseMode(argv[1]);
+    const int mode = proskuryakov::parseMode(argv[1]);
 
     std::ifstream in(argv[2]);
     if (!in)
