@@ -4,6 +4,7 @@
 #include <limits>
 #include <stdexcept>
 #include <new>
+#include <exception>
 
 namespace proskuryakov
 {
@@ -186,7 +187,12 @@ int main(int argc, char *argv[])
     std::cerr << "Error: " << e.what() << '\n';
     return proskuryakov::err_args;
   }
-  catch (const std::exception &e)
+  catch (const std::runtime_error &e)
+  {
+    std::cerr << "Error" << e.what() << '\n';
+    return proskuryakov::err_input;
+  }
+  catch (const std::bad_alloc &e)
   {
     std::cerr << "Error: " << e.what() << '\n';
     return proskuryakov::err_input;
