@@ -4,7 +4,6 @@
 #include <limits>
 #include <stdexcept>
 #include <new>
-#include <exception>
 
 namespace proskuryakov
 {
